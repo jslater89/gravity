@@ -1,0 +1,122 @@
+<script>
+import axios from 'axios';
+import { Line, mixins } from 'vue-chartjs';
+
+function convertBatchToDataset(batch) {
+  const gravityData = 0;
+  const tempData = 1;
+  // const voltageData = 2;
+
+  const data = {
+    labels: [],
+    datasets: [
+      {
+        label: 'Gravity',
+        yAxisID: 'Gravity',
+        backgroundColor: '#d9e9ff88',
+        data: [],
+      },
+      {
+        label: 'Temperature',
+        yAxisID: 'Temperature',
+        backgroundColor: '#ed433788',
+        data: [],
+      },
+      // {
+      //   label: 'Voltage',
+      //   data: [],
+      // },
+    ],
+  };
+
+  if (batch.initialReading && batch.initialReading.id !== '') {
+    data.labels.push(batch.initialReading.date);
+    data.datasets[gravityData].data.push(batch.initialReading.gravity);
+    data.datasets[tempData].data.push(batch.initialReading.temperature);
+    // data.datasets[voltageData].data.push(batch.initialReading.battery);
+  }
+
+  for (let i = 0; i < batch.readings.length; i++) {
+    const reading = batch.readings[i];
+    data.labels.push(reading.date);
+    data.datasets[gravityData].data.push(reading.gravity);
+    data.datasets[tempData].data.push(reading.temperature);
+    // data.datasets[voltageData].data.push(reading.battery);
+  }
+
+  return data;
+}
+
+function getBatch(id, callback) {
+  axios.get(`http://localhost:10000/api/v1/batches/${id}`)
+    .then((response) => {
+        callback(response.data);
+    },
+    (response) => {
+      //eslint-disable-next-line
+      console.log(response);
+    });
+}
+
+function receivedParam() {
+  getBatch(this.batch, (batch) => {
+    this.localBatch = batch;
+  });
+}
+
+function updateChart() {
+  if (this.localBatch) {
+    this.chartData = convertBatchToDataset(this.localBatch);
+  }
+}
+
+function routeChanged(to) {
+  // const self = this;
+  getBatch(to.params.id, (batch) => {
+    this.localBatch = batch;
+  });
+}
+
+export default {
+  extends: Line,
+  props: ['batch', 'options'],
+  mixins: [mixins.reactiveData],
+  watch: {
+    batch: receivedParam, // received a param from above
+    $route: routeChanged, // navigated from one batch to another
+    localBatch: updateChart,
+  },
+  data() {
+    return {
+      localBatch: [],
+    };
+  },
+  mounted() {
+    this.options.scales = {
+      yAxes: [
+        {
+          id: 'Gravity',
+          position: 'left',
+          type: 'linear',
+          ticks: {
+            suggestedMin: 1.000,
+            suggestedMax: 1.100,
+            beginAtZero: false,
+          },
+        },
+        {
+          id: 'Temperature',
+          position: 'right',
+          type: 'linear',
+          ticks: {
+            suggestedMin: 32,
+            suggestedMax: 80,
+          },
+        },
+      ],
+    };
+
+    this.renderChart(this.chartData, this.options);
+  },
+};
+</script>
