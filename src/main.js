@@ -5,8 +5,10 @@ import Vue from 'vue';
 
 import App from './app/App';
 import router from './router';
+import filters from './filters';
 
 Vue.config.productionTip = false;
+filters();
 
 /* eslint-disable no-new */
 new Vue({

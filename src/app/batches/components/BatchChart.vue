@@ -1,6 +1,11 @@
 <script>
 import axios from 'axios';
+import moment from 'moment';
 import { Line, mixins } from 'vue-chartjs';
+
+function getTimeString(isoDate) {
+  return `${moment(isoDate).format('MM/DD HH:mm')}`;
+}
 
 function convertBatchToDataset(batch) {
   const gravityData = 0;
@@ -29,16 +34,9 @@ function convertBatchToDataset(batch) {
     ],
   };
 
-  if (batch.initialReading && batch.initialReading.id !== '') {
-    data.labels.push(batch.initialReading.date);
-    data.datasets[gravityData].data.push(batch.initialReading.gravity);
-    data.datasets[tempData].data.push(batch.initialReading.temperature);
-    // data.datasets[voltageData].data.push(batch.initialReading.battery);
-  }
-
   for (let i = 0; i < batch.readings.length; i++) {
     const reading = batch.readings[i];
-    data.labels.push(reading.date);
+    data.labels.push(getTimeString(reading.date));
     data.datasets[gravityData].data.push(reading.gravity);
     data.datasets[tempData].data.push(reading.temperature);
     // data.datasets[voltageData].data.push(reading.battery);
@@ -98,6 +96,10 @@ export default {
           id: 'Gravity',
           position: 'left',
           type: 'linear',
+          scaleLabel: {
+            labelString: 'Gravity',
+            display: true,
+          },
           ticks: {
             suggestedMin: 1.000,
             suggestedMax: 1.100,
@@ -108,6 +110,10 @@ export default {
           id: 'Temperature',
           position: 'right',
           type: 'linear',
+          scaleLabel: {
+            labelString: 'Temp',
+            display: true,
+          },
           ticks: {
             suggestedMin: 32,
             suggestedMax: 80,

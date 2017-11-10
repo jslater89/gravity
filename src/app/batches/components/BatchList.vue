@@ -12,7 +12,7 @@
       <tr v-for="batch in batches" :key="batch.id">
         <td><router-link :to="{name: 'batchdetail', params: {id: batch.id}}">{{batch.stringId}}</router-link></td>
         <td>{{batch.recipe}}</td>
-        <td>{{batch.lastUpdate | timeString}}</td>
+        <td>{{batch.lastUpdate | longdate}}</td>
         <td>{{batch.attenuation | percentify}}</td>
       </tr>
     </table>
@@ -22,27 +22,12 @@
 <script>
 import axios from 'axios';
 
-function getTimeString(isoDate) {
-  const date = new Date(isoDate);
-  return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
-}
-
-function getPercentage(decimal) {
-  const percentage = decimal * 100;
-  return `${percentage.toFixed(2)}%`;
-}
-
 export default {
   name: 'BatchList',
   data() {
     return {
       batches: [],
     };
-  },
-
-  filters: {
-    timeString: getTimeString,
-    percentify: getPercentage,
   },
 
   // Fetches posts when the component is created.
