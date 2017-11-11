@@ -45,7 +45,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
   .table {
     width:60%;
     margin-left: 20%;

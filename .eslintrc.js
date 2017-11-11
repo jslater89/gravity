@@ -39,5 +39,6 @@ module.exports = {
     'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
     'indent': 'off',
     'no-plusplus': 'off',
+    "brace-style": [1, "stroustrup", { "allowSingleLine": true }],
   }
 }

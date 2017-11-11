@@ -32,7 +32,7 @@ export default {
   created() {
       axios.get(`http://localhost:10000/api/v1/batches/${this.id}`)
       .then((response) => {
-          this.batch = response.data;
+        this.batch = response.data;
       },
       (response) => {
         //eslint-disable-next-line
@@ -42,7 +42,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .panel {
   width: 100%;
   height: 100%;
