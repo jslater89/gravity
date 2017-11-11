@@ -42,6 +42,14 @@ function convertBatchToDataset(batch) {
     // data.datasets[voltageData].data.push(reading.battery);
   }
 
+  if (batch.readings.length < 72) {
+    for (let i = 0; i < (72 - batch.readings.length); i++) {
+      data.labels.push('');
+      data.datasets[gravityData].data.push(null);
+      data.datasets[tempData].data.push(null);
+    }
+  }
+
   return data;
 }
 
