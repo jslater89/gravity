@@ -39,6 +39,10 @@ export default {
           console.log(response);
       });
   },
+
+  mounted() {
+    this.checkAuth(this);
+  },
 };
 </script>
 

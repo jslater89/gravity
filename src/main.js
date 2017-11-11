@@ -24,6 +24,16 @@ if (Vue.ls.get('token', '') !== '') {
   axios.defaults.headers.common.Authorization = `Bearer ${token}`;
 }
 
+Vue.mixin({
+  methods: {
+    checkAuth: (context) => {
+      if (!context.$store.state.auth.isLoggedIn) {
+        context.$router.push({ path: '/' });
+      }
+    },
+  },
+});
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
