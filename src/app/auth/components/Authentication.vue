@@ -6,6 +6,14 @@
 <script>
 import axios from 'axios';
 
+function completeLogout(context) {
+  axios.defaults.headers.common.Authorization = '';
+  context.$store.commit('logout');
+  context.$ls.set('token', '');
+
+  context.$router.push('/');
+}
+
 export default {
   name: 'Authentication',
   props: ['bearer', 'redirect'],
@@ -18,12 +26,10 @@ export default {
       this.$router.push('/batches');
     }
     else {
-      // TODO: sign out with bearer
-      axios.defaults.headers.common.Authorization = '';
-      this.$store.commit('logout');
-      this.$ls.set('token', '');
-
-      this.$router.push('/');
+      const context = this;
+      axios.get('http://localhost:10000/api/v1/auth/logout')
+        .then(() => completeLogout(context))
+        .catch(() => completeLogout(context));
     }
   },
 };
