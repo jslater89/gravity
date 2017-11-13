@@ -3,9 +3,9 @@ import axios from 'axios';
 import moment from 'moment';
 import { Line, mixins } from 'vue-chartjs';
 
-function getTimeString(isoDate) {
-  return `${moment(isoDate).format('MM/DD HH:mm')}`;
-}
+// function getTimeString(isoDate) {
+//   return `${moment(isoDate).format('MM/DD HH:mm')}`;
+// }
 
 function convertBatchToDataset(batch) {
   const gravityData = 0;
@@ -36,15 +36,17 @@ function convertBatchToDataset(batch) {
 
   for (let i = 0; i < batch.readings.length; i++) {
     const reading = batch.readings[i];
-    data.labels.push(getTimeString(reading.date));
+    data.labels.push(moment(reading.date).toDate());
     data.datasets[gravityData].data.push(reading.gravity);
     data.datasets[tempData].data.push(reading.temperature);
     // data.datasets[voltageData].data.push(reading.battery);
   }
 
-  if (batch.readings.length < 72) {
-    for (let i = 0; i < (72 - batch.readings.length); i++) {
-      data.labels.push('');
+  if (batch.readings.length < 144 && batch.readings.length > 0) {
+    const startTime = moment(batch.readings[batch.readings.length - 1].date);
+    for (let i = 0; i < (144 - batch.readings.length); i++) {
+      startTime.add(30, 'minutes');
+      data.labels.push(startTime.toDate());
       data.datasets[gravityData].data.push(null);
       data.datasets[tempData].data.push(null);
     }
@@ -125,6 +127,19 @@ export default {
           ticks: {
             suggestedMin: 32,
             suggestedMax: 80,
+          },
+        },
+      ],
+      xAxes: [
+        {
+          id: 'Date',
+          position: 'bottom',
+          type: 'time',
+          time: {
+            unit: 'hour',
+            displayFormats: {
+              hour: 'MM/DD HH:mm',
+            },
           },
         },
       ],
