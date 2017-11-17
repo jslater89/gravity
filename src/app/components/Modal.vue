@@ -14,7 +14,7 @@ export default {
   methods: {
     // Must be a function for the correct binding of this
     // eslint-disable-next-line
-    close: function () {
+    close() {
       this.$emit('close');
     },
   },

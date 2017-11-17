@@ -1,18 +1,33 @@
 <template>
   <modal :show="show" @close="close">
     <h3>Test</h3>
+    <input type="text" v-model="localBatch.recipe" /> <br/>
     <button @click="close()">Cancel</button>
+    <button @click="updateBatch(); close()">Save</button>
   </modal>
 </template>
 
 <script>
 export default {
-  props: ['show'],
+  props: ['show', 'batch'],
+  watch: {
+    show(val) {
+      if (val) {
+        Object.assign(this.localBatch, this.batch);
+      }
+    },
+  },
+  data() {
+    return {
+      localBatch: {},
+    };
+  },
   methods: {
-    // Must be a function for the correct binding of this
-    // eslint-disable-next-line
-    close: function () {
+    close() {
       this.$emit('close');
+    },
+    updateBatch() {
+      this.batch.recipe = this.localBatch.recipe;
     },
   },
 };

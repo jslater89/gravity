@@ -1,7 +1,7 @@
 <template>
   <div class="panel">
       <h3>Batch Detail: {{ batch.recipe }} {{ batch.stringId}} </h3>
-      <batch-edit-modal :show="showBatchEdit" @close="showBatchEdit = false"></batch-edit-modal>
+      <batch-edit-modal :batch="batch" :show="showBatchEdit" @close="showBatchEdit = false"></batch-edit-modal>
       <div class="sidebar">
         <batch-info-panel :batch="batch"></batch-info-panel>
         <button @click="showBatchEdit = true">Edit</button>
@@ -24,7 +24,7 @@ export default {
   props: ['id'],
   data() {
       return {
-          batch: [],
+          batch: {},
           showBatchEdit: false,
       };
   },
