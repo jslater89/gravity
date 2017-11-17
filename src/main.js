@@ -10,9 +10,13 @@ import router from './router';
 import filters from './filters';
 import store from './vuex';
 
+import modal from './app/components/Modal';
+
 Vue.use(VueLocalStorage, {
   namespace: 'gravity__',
 });
+
+Vue.component('modal', modal);
 
 Vue.config.productionTip = false;
 filters();
