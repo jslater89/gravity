@@ -5,6 +5,12 @@
       <div class="sidebar">
         <batch-info-panel :batch="batch"></batch-info-panel>
         <button @click="showBatchEdit = true">Edit</button>
+
+        <button v-if="!batch.archived && !batch.active" @click="archiveBatch(true)">Archive</button>
+        <button v-if="batch.archived" @click="archiveBatch(false)">Unarchive</button>
+
+        <button v-if="batch.active" @click="activateBatch(false)">Finish</button>
+        <button v-if="!batch.active && !batch.archived" @click="activateBatch(true)">Restart</button>
       </div>
       <div class="content">
         <batch-chart :batch="batch.id" :options="{reactive: true, maintainAspectRatio: false}"></batch-chart>
@@ -38,15 +44,42 @@ export default {
       axios.get(`http://localhost:10000/api/v1/batches/${this.id}`)
       .then((response) => {
         this.batch = response.data;
-      },
-      (response) => {
+      })
+      .catch((response) => {
         //eslint-disable-next-line
-          console.log(response);
+        console.log(response);
       });
   },
 
   mounted() {
     this.checkAuth(this);
+  },
+
+  methods: {
+    activateBatch(activate) {
+      this.batch.active = activate;
+
+      axios.put(`http://localhost:10000/api/v1/batches/${this.id}`, this.batch)
+        .then()
+        .catch((error) => {
+          this.batch.active = !activate;
+
+          //eslint-disable-next-line
+          console.log(error);
+        });
+    },
+    archiveBatch(archive) {
+      this.batch.archived = archive;
+
+      axios.put(`http://localhost:10000/api/v1/batches/${this.id}`, this.batch)
+        .then()
+        .catch((error) => {
+          this.batch.archived = !archive;
+
+          //eslint-disable-next-line
+          console.log(error);
+        });
+    },
   },
 };
 </script>

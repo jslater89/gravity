@@ -6,6 +6,8 @@ export default function () {
 
   Vue.filter('shortdate', isoDate => `${moment(isoDate).format('MM/DD HH:mm')}`);
 
+  Vue.filter('dateonly', isoDate => `${moment(isoDate).format('MM/DD/YYYY')}`);
+
   Vue.filter('percentify', (decimal) => {
     if (typeof decimal !== 'undefined') {
       const percentage = decimal * 100;

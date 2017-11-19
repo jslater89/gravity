@@ -6,7 +6,7 @@
     </tr>
     <tr>
       <td class="title">Start Date</td>
-      <td>{{batch.startDate | shortdate }}</td>
+      <td>{{batch.startDate | dateonly }}</td>
     </tr>
     <tr>
       <td class="title">Last Update</td>
@@ -18,7 +18,15 @@
     <tr>
       <td class="title">ABV</td>
       <td>{{ batch.abv | round2 }}%</td>
-    </tr>  
+    </tr>
+    <tr>
+      <td class="title">Active</td>
+      <td>{{ batch.active }}</td>
+    </tr>
+    <tr>
+      <td class="title">Archived</td>
+      <td>{{ batch.archived }}</td>
+    </tr>
 
     <tr v-if="batch.lastReading">
       <td class="title">Hydrometer Battery</td>
