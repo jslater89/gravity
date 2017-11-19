@@ -5,6 +5,10 @@
       <td>{{batch.recipe}}</td>
     </tr>
     <tr>
+      <td class="title">Hydrometer</td>
+      <td>{{batch.hydrometer.name}}</td>
+    </tr>
+    <tr>
       <td class="title">Start Date</td>
       <td>{{batch.startDate | dateonly }}</td>
     </tr>

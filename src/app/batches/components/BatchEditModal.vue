@@ -15,12 +15,23 @@
     </table>
 
     <br/>
-      
-    <label for="startdate">Start Date</label> <vuejs-datepicker id="startdate" v-model="localDate" /> <br />
     
-    <p class="error">{{ error }}</p>
-    <button @click="close()">Cancel</button>
-    <button @click="saveBatch()">Save</button>
+    <div class="twocolumn">
+      <label for="startdate">Start Date</label> <vuejs-datepicker id="startdate" v-model="localDate" /> <br />
+    </div>
+
+    <div class="twocolumn">
+      <label for="hydrometer">Hydrometer</label> <br/>
+      <select id="hydrometers" v-model="localBatch.hydrometer">
+        <option v-for="h in hydrometers" :key="h.id" :value="h">{{ h.name }}</option>
+      </select>
+    </div>
+    
+    <div class="bottomcontent">
+      <p class="error">{{ error }}</p>
+      <button @click="close()">Cancel</button>
+      <button @click="saveBatch()">Save</button>
+    </div>
   </modal>
 </template>
 
@@ -29,18 +40,43 @@ import axios from 'axios';
 import moment from 'moment';
 import Datepicker from 'vuejs-datepicker';
 
+const emptyHydrometer = { id: '', name: 'None' };
+
+function getAvailableHydrometers(context) {
+  const ctx = context;
+
+  axios.get('http://localhost:10000/api/v1/hydrometers/available')
+    .then((response) => {
+      ctx.hydrometers = [];
+      if (ctx.localBatch.hydrometer.name !== 'None' && ctx.localBatch.hydrometer.name !== '') {
+        ctx.hydrometers.push(ctx.localBatch.hydrometer);
+      }
+      ctx.hydrometers = [...ctx.hydrometers, ...response.data];
+      ctx.hydrometers.push(emptyHydrometer);
+    })
+    .catch((error) => {
+      // eslint-disable-next-line
+      console.log(error);
+    });
+}
+
 export default {
   props: ['show', 'batch', 'new'],
   watch: {
     show(val) {
       if (val) {
         Object.assign(this.localBatch, this.batch);
+        if (this.localBatch.hydrometer.name === '') {
+          this.localBatch.hydrometer = emptyHydrometer;
+        }
         this.localDate = moment(this.localBatch.startDate).toDate();
+        getAvailableHydrometers(this);
       }
     },
   },
   data() {
     return {
+      hydrometers: [],
       localBatch: {},
       localDate: new Date(),
       error: '',
@@ -79,6 +115,7 @@ export default {
           this.batch.recipe = this.localBatch.recipe;
           this.batch.stringId = this.localBatch.stringId;
           this.batch.startDate = this.localBatch.startDate;
+          this.batch.hydrometer = this.localBatch.hydrometer;
           this.$emit('save');
           this.close();
         })
@@ -99,6 +136,15 @@ export default {
 .table {
   width: 80%;
   margin: 0 auto;
+}
+
+.twocolumn {
+  width: 50%;
+  float: left;
+}
+
+.bottomcontent {
+  clear: both;
 }
 
 .vdp-datepicker {

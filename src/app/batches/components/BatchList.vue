@@ -12,6 +12,7 @@
       <thead>
         <th>ID</th>
         <th>Recipe</th>
+        <th>Hydrometer</th>
         <th>Last Update</th>
         <th>Attenuation</th>
         <th>Active</th>
@@ -19,6 +20,7 @@
       <tr v-for="batch in batches" :key="batch.id">
         <td><router-link :to="{name: 'batchdetail', params: {id: batch.id}}">{{batch.stringId}}</router-link></td>
         <td>{{batch.recipe}}</td>
+        <td>{{batch.hydrometer.name}}</td>
         <td>{{batch.lastUpdate | longdate}}</td>
         <td>{{batch.attenuation | percentify}}</td>
         <td>{{batch.active}}</td>

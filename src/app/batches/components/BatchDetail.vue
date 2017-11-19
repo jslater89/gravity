@@ -3,14 +3,16 @@
       <h3>Batch Detail: {{ batch.recipe }} {{ batch.stringId}} </h3>
       <batch-edit-modal :new="false" :batch="batch" :show="showBatchEdit" @close="showBatchEdit = false"></batch-edit-modal>
       <div class="sidebar">
-        <batch-info-panel :batch="batch"></batch-info-panel>
-        <button @click="showBatchEdit = true">Edit</button>
+        <!-- <div v-if="canEdit()"> -->
+          <batch-info-panel :batch="batch"></batch-info-panel>
+          <button @click="showBatchEdit = true">Edit</button>
 
-        <button v-if="!batch.archived && !batch.active" @click="archiveBatch(true)">Archive</button>
-        <button v-if="batch.archived" @click="archiveBatch(false)">Unarchive</button>
+          <button v-if="!batch.archived && !batch.active" @click="archiveBatch(true)">Archive</button>
+          <button v-if="batch.archived" @click="archiveBatch(false)">Unarchive</button>
 
-        <button v-if="batch.active" @click="activateBatch(false)">Finish</button>
-        <button v-if="!batch.active && !batch.archived" @click="activateBatch(true)">Restart</button>
+          <button v-if="batch.active" @click="activateBatch(false)">Finish</button>
+          <button v-if="!batch.active && !batch.archived" @click="activateBatch(true)">Restart</button>
+        <!-- </div> -->
       </div>
       <div class="content">
         <batch-chart :batch="batch.id" :options="{reactive: true, maintainAspectRatio: false}"></batch-chart>
