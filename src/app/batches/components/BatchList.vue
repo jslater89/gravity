@@ -61,12 +61,11 @@ function fetchBatches(context) {
 
   axios.get(`http://localhost:10000/api/v1/batches${queryString}`)
     .then((response) => {
-      // JSON responses are automatically parsed.
       ctx.batches = response.data;
-    },
-    (response) => {
+    })
+    .catch((error) => {
       // eslint-disable-next-line
-      console.log(response);
+      console.log(error);
       ctx.checkAuth(ctx);
     });
 }

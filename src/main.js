@@ -29,6 +29,9 @@ if (Vue.ls.get('token', '') !== '') {
 }
 
 Vue.mixin({
+  data: {
+    emptyID: '2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a',
+  },
   methods: {
     checkAuth: (context) => {
       if (!context.$store.state.auth.isLoggedIn) {
