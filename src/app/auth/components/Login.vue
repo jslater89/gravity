@@ -1,7 +1,7 @@
 <template>
   <div class="login">
     <h1>{{ msg }}</h1>
-    <a href="http://localhost:10000/api/v1/auth/google/login">Sign in with Google</a>
+    <a :href="getLoginPath()">Sign in with Google</a>
   </div>
 </template>
 
@@ -12,6 +12,12 @@ export default {
     return {
       msg: 'Welcome to Gravity',
     };
+  },
+
+  methods: {
+    getLoginPath() {
+      return `${this.gravityConfig.apiRoot}/api/v1/auth/google/login`;
+    },
   },
 };
 </script>

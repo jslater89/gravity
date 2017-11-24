@@ -10,7 +10,7 @@
       </thead>
       <tr v-for="hydrometer in hydrometers" :key="hydrometer.id">
         <td><router-link :to="{name: 'hydrometerdetail', params: {hydrometer: hydrometer}}">{{hydrometer.name}}</router-link></td>
-        <td>{{hydrometer.batch !== emptyID}}</td>
+        <td>{{hydrometer.batch !== gravityEmptyID}}</td>
       </tr>
     </table>
   </div>
@@ -22,7 +22,9 @@ import axios from 'axios';
 function fetchHydrometers(context) {
   const ctx = context;
 
-  axios.get('http://localhost:10000/api/v1/hydrometers')
+  console.log(ctx);
+
+  axios.get(`${ctx.gravityConfig.apiRoot}/api/v1/hydrometers`)
     .then((response) => {
       ctx.hydrometers = response.data;
     })

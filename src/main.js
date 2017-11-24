@@ -9,6 +9,7 @@ import App from './app/App';
 import router from './router';
 import filters from './filters';
 import store from './vuex';
+import config from './config';
 
 import modal from './app/components/Modal';
 
@@ -29,8 +30,11 @@ if (Vue.ls.get('token', '') !== '') {
 }
 
 Vue.mixin({
-  data: {
-    emptyID: '2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a',
+  data() {
+    return {
+      gravityEmptyID: '2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a',
+      gravityConfig: config,
+    };
   },
   methods: {
     checkAuth: (context) => {

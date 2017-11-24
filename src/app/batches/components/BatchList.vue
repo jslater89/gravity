@@ -59,7 +59,7 @@ function fetchBatches(context) {
     }
   }
 
-  axios.get(`http://localhost:10000/api/v1/batches${queryString}`)
+  axios.get(`${ctx.gravityConfig.apiRoot}/api/v1/batches${queryString}`)
     .then((response) => {
       ctx.batches = response.data;
     })

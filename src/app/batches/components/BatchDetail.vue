@@ -43,7 +43,7 @@ export default {
   },
 
   created() {
-      axios.get(`http://localhost:10000/api/v1/batches/${this.id}`)
+      axios.get(`${this.gravityConfig.apiRoot}/api/v1/batches/${this.id}`)
       .then((response) => {
         this.batch = response.data;
       })
@@ -61,7 +61,7 @@ export default {
     activateBatch(activate) {
       this.batch.active = activate;
 
-      axios.put(`http://localhost:10000/api/v1/batches/${this.id}`, this.batch)
+      axios.put(`${this.gravityConfig.apiRoot}/api/v1/batches/${this.id}`, this.batch)
         .then()
         .catch((error) => {
           this.batch.active = !activate;
@@ -73,7 +73,7 @@ export default {
     archiveBatch(archive) {
       this.batch.archived = archive;
 
-      axios.put(`http://localhost:10000/api/v1/batches/${this.id}`, this.batch)
+      axios.put(`${this.gravityConfig.apiRoot}/api/v1/batches/${this.id}`, this.batch)
         .then()
         .catch((error) => {
           this.batch.archived = !archive;

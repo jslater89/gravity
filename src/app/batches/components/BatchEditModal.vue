@@ -45,7 +45,7 @@ const emptyHydrometer = { id: '', name: 'None' };
 function getAvailableHydrometers(context) {
   const ctx = context;
 
-  axios.get('http://localhost:10000/api/v1/hydrometers/available')
+  axios.get(`${this.gravityConfig.apiRoot}/api/v1/hydrometers/available`)
     .then((response) => {
       ctx.hydrometers = [];
       if (ctx.localBatch.hydrometer.name !== 'None' && ctx.localBatch.hydrometer.name !== '') {
@@ -103,11 +103,11 @@ export default {
       let url = '';
       if (this.new) {
         method = axios.post;
-        url = 'http://localhost:10000/api/v1/batches';
+        url = `${this.gravityConfig.apiRoot}/api/v1/batches`;
       }
       else {
         method = axios.put;
-        url = `http://localhost:10000/api/v1/batches/${this.localBatch.id}`;
+        url = `${this.gravityConfig.apiRoot}/api/v1/batches/${this.localBatch.id}`;
       }
 
       method(url, this.localBatch)

@@ -55,8 +55,8 @@ function convertBatchToDataset(batch) {
   return data;
 }
 
-function getBatch(id, callback) {
-  axios.get(`http://localhost:10000/api/v1/batches/${id}`)
+function getBatch(ctx, id, callback) {
+  axios.get(`${ctx.gravityConfig.apiRoot}/api/v1/batches/${id}`)
     .then((response) => {
         callback(response.data);
     },
@@ -66,15 +66,15 @@ function getBatch(id, callback) {
     });
 }
 
-function receivedParam() {
-  getBatch(this.batch, (batch) => {
-    this.localBatch = batch;
+function receivedParam(ctx) {
+  getBatch(ctx, ctx.batch, (batch) => {
+    ctx.localBatch = batch;
   });
 }
 
-function updateChart() {
-  if (this.localBatch) {
-    this.chartData = convertBatchToDataset(this.localBatch);
+function updateChart(ctx) {
+  if (ctx.localBatch) {
+    ctx.chartData = convertBatchToDataset(ctx.localBatch);
   }
 }
 

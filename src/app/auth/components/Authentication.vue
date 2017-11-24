@@ -32,12 +32,12 @@ export default {
       this.$ls.set('token', this.bearer);
       axios.defaults.headers.common.Authorization = `Bearer ${this.$store.state.auth.authToken}`;
 
-      axios.get('http://localhost:10000/api/v1/users/me')
+      axios.get(`${this.gravityConfig.apiRoot}/api/v1/users/me`)
         .then(response => completeLogin(context, false, response))
         .catch(error => completeLogin(context, true, error));
     }
     else {
-      axios.get('http://localhost:10000/api/v1/auth/logout')
+      axios.get(`${this.gravityConfig.apiRoot}/api/v1/auth/logout`)
         .then(() => completeLogout(context))
         .catch(() => completeLogout(context));
     }
