@@ -19,11 +19,7 @@
 <script>
 import axios from 'axios';
 
-function fetchHydrometers(context) {
-  const ctx = context;
-
-  console.log(ctx);
-
+function fetchHydrometers(ctx) {
   axios.get(`${ctx.gravityConfig.apiRoot}/api/v1/hydrometers`)
     .then((response) => {
       ctx.hydrometers = response.data;

@@ -66,15 +66,15 @@ function getBatch(ctx, id, callback) {
     });
 }
 
-function receivedParam(ctx) {
-  getBatch(ctx, ctx.batch, (batch) => {
-    ctx.localBatch = batch;
+function receivedParam(batchID) {
+  getBatch(this, batchID, (batch) => {
+    this.localBatch = batch;
   });
 }
 
-function updateChart(ctx) {
-  if (ctx.localBatch) {
-    ctx.chartData = convertBatchToDataset(ctx.localBatch);
+function updateChart() {
+  if (this.localBatch) {
+    this.chartData = convertBatchToDataset(this.localBatch);
   }
 }
 

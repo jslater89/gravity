@@ -33,9 +33,7 @@
 import axios from 'axios';
 import BatchEditModal from './BatchEditModal';
 
-function fetchBatches(context) {
-  const ctx = context;
-
+function fetchBatches(ctx) {
   let queryString = '';
   const queryItems = [];
 
