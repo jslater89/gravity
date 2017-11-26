@@ -130,7 +130,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .table {
   width: 80%;
   margin: 0 auto;
