@@ -1,8 +1,10 @@
 <template>
   <div>
     <div id="nav" v-if="this.$store.state.auth.isLoggedIn">
+      <a @click="showHydrometerEdit = true">New Hydrometer</a>
     </div>
     <h3>Hydrometer List</h3>
+    <hydrometer-edit-modal :new="true" :hydrometer="{}" v-on:save="updateHydrometers()" :show="showHydrometerEdit" @close="showHydrometerEdit = false"></hydrometer-edit-modal>
     <label for="archived">Show archived</label> <input id="archived" type="checkbox" v-model="showArchived" />
     <button @click="updateHydrometers()">Query</button>
     <table class="table">
@@ -20,6 +22,7 @@
 
 <script>
 import axios from 'axios';
+import HydrometerEditModal from './HydrometerEditModal';
 
 function fetchHydrometers(ctx) {
   let queryString = '';
@@ -57,7 +60,11 @@ export default {
     return {
       hydrometers: [],
       showArchived: false,
+      showHydrometerEdit: false,
     };
+  },
+  components: {
+    'hydrometer-edit-modal': HydrometerEditModal,
   },
 
   created() {
