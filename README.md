@@ -1,6 +1,6 @@
 # gravity
 
-> A front-end for the Graviton fermentation tracker.
+> A front-end for the [Graviton](https://github.com/jslater89/graviton) fermentation tracker.
 
 ## Build Setup
 
