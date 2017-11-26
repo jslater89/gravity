@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div id="nav" v-if="this.$store.state.auth.isLoggedIn">
+    <div id="nav" v-if="this.checkPermissions(this, 'write', '/hydrometers')">
       <a @click="showHydrometerEdit = true">New Hydrometer</a>
     </div>
     <h3>Hydrometer List</h3>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div id="nav" v-if="this.$store.state.auth.isLoggedIn">
+    <div id="nav" v-if="this.checkPermissions(this, 'write', '/batches')">
       <a @click="showBatchEdit = true">New Batch</a>
     </div>
     <h3>Batch List</h3>

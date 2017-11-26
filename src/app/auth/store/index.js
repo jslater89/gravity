@@ -20,7 +20,7 @@ export default {
       for (let i = 0; i < user.roles.length; i++) {
         permissions = [...permissions, ...user.roles[i].permissions];
       }
-      state.permissions = permissions;
+      state.permissions = permissions.slice();
     },
   },
 };

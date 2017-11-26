@@ -25,7 +25,9 @@ filters();
 // restore auth
 if (Vue.ls.get('token', '') !== '') {
   const token = Vue.ls.get('token');
+  const user = Vue.ls.get('user');
   store.commit('login', token);
+  store.commit('gotUser', user);
   axios.defaults.headers.common.Authorization = `Bearer ${token}`;
 }
 
@@ -37,10 +39,37 @@ Vue.mixin({
     };
   },
   methods: {
-    checkAuth: (context) => {
+    checkAuth(context) {
       if (!context.$store.state.auth.isLoggedIn) {
         context.$router.push({ path: '/' });
+        return false;
       }
+      return true;
+    },
+    checkPermissions(context, readWrite, path) {
+      if (!context.checkAuth(context)) {
+        return false;
+      }
+
+      const permissions = context.$store.state.auth.permissions;
+
+      let bestMatchLength = 0;
+      let bestRead = false;
+      let bestWrite = false;
+
+      for (let i = 0; i < permissions.length; i++) {
+        if (path.startsWith(permissions[i].path) && permissions[i].path.length > bestMatchLength) {
+          bestMatchLength = permissions[i].path.length;
+          bestRead = permissions[i].canRead;
+          bestWrite = permissions[i].canWrite;
+        }
+      }
+
+      if (readWrite === 'write') {
+        return bestWrite;
+      }
+
+      return bestRead;
     },
   },
 });

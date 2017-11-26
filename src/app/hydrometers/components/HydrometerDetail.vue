@@ -13,9 +13,11 @@
       </tr>
     </table>
 
-    <button @click="showHydrometerEdit = true">Edit</button>
-    <button v-if="!hydrometer.archived" @click="archiveHydrometer(true)">Archive</button>
-    <button v-if="hydrometer.archived" @click="archiveHydrometer(false)">Unarchive</button>
+    <div v-if="this.checkPermissions(this, 'write', '/batches')">
+      <button @click="showHydrometerEdit = true">Edit</button>
+      <button v-if="!hydrometer.archived" @click="archiveHydrometer(true)">Archive</button>
+      <button v-if="hydrometer.archived" @click="archiveHydrometer(false)">Unarchive</button>
+    </div>
 
   </div>
 

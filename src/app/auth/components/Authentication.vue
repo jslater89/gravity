@@ -10,6 +10,7 @@ function completeLogout(context) {
   axios.defaults.headers.common.Authorization = '';
   context.$store.commit('logout');
   context.$ls.set('token', '');
+  context.$ls.set('user', {});
 
   context.$router.push('/');
 }
@@ -17,6 +18,7 @@ function completeLogout(context) {
 function completeLogin(context, error, response) {
   if (!error && response.data) {
     context.$store.commit('gotUser', response.data);
+    context.$ls.set('user', response.data);
   }
 
   context.$router.push('/batches');
