@@ -17,6 +17,11 @@ export default {
     },
     gotUser(state, user) {
       let permissions = [];
+      if (!user || !user.roles) {
+        // eslint-disable-next-line
+        console.log('warning: bad user: ' + user);
+        return;
+      }
       for (let i = 0; i < user.roles.length; i++) {
         permissions = [...permissions, ...user.roles[i].permissions];
       }
