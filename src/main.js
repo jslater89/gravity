@@ -34,7 +34,7 @@ if (Vue.ls.get('token', '') !== '') {
 Vue.mixin({
   data() {
     return {
-      gravityEmptyID: '2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a',
+      gravityEmptyID: '2a2a2a2a2a2a2a2a2a2a2a2a',
       gravityConfig,
     };
   },
