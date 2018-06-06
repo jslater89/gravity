@@ -16,6 +16,7 @@
       </div>
       <div class="content">
         <batch-chart :batch="batch.id"></batch-chart>
+        <voltage-chart :batch="batch.id"></voltage-chart>
       </div>
   </div>
 </template>
@@ -24,6 +25,7 @@
 import axios from 'axios';
 
 import BatchChart from './BatchChart';
+import VoltageChart from './VoltageChart';
 import BatchInfoPanel from './BatchInfoPanel';
 import BatchEditModal from './BatchEditModal';
 
@@ -37,6 +39,7 @@ export default {
       };
   },
   components: {
+    'voltage-chart': VoltageChart,
     'batch-chart': BatchChart,
     'batch-info-panel': BatchInfoPanel,
     'batch-edit-modal': BatchEditModal,
