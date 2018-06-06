@@ -43,7 +43,7 @@ import Datepicker from 'vuejs-datepicker';
 const emptyHydrometer = { id: '', name: 'None' };
 
 function getAvailableHydrometers(ctx) {
-  axios.get(`${this.gravityConfig.apiRoot}/api/v1/hydrometers/available`)
+  axios.get(`${ctx.gravityConfig.apiRoot}/api/v1/hydrometers/available`)
     .then((response) => {
       ctx.hydrometers = [];
       if (ctx.localBatch.hydrometer.name !== 'None' && ctx.localBatch.hydrometer.name !== '') {

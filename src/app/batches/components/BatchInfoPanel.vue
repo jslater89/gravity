@@ -14,7 +14,7 @@
     </tr>
     <tr>
       <td class="title">Last Update</td>
-      </td>{{batch.lastUpdate | shortdate }}</td>
+      <td>{{batch.lastUpdate | shortdate }}</td>
     <tr>
       <td class="title">Attenuation</td>
       <td>{{ batch.attenuation | percentify }}</td>
@@ -32,9 +32,9 @@
       <td>{{ batch.archived }}</td>
     </tr>
 
-    <tr v-if="batch.lastReading">
+    <tr v-if="batch.latestReading">
       <td class="title">Hydrometer Battery</td>
-      <td>{{ batch.lastReading.battery }}</td>
+      <td>{{ batch.latestReading.battery | round2 }}</td>
     </tr>
   </table>
 </template>

@@ -87,7 +87,7 @@ function routeChanged(to) {
 
 export default {
   extends: Line,
-  props: ['batch', 'options'],
+  props: ['batch'],
   mixins: [mixins.reactiveData],
   watch: {
     batch: receivedParam, // received a param from above
@@ -97,54 +97,57 @@ export default {
   data() {
     return {
       localBatch: [],
+      options: {
+        reactive: true,
+        maintainAspectRatio: false,
+        scales: {
+          yAxes: [
+            {
+              id: 'Gravity',
+              position: 'left',
+              type: 'linear',
+              scaleLabel: {
+                labelString: 'Gravity',
+                display: true,
+              },
+              ticks: {
+                suggestedMin: 1.000,
+                suggestedMax: 1.100,
+                beginAtZero: false,
+              },
+            },
+            {
+              id: 'Temperature',
+              position: 'right',
+              type: 'linear',
+              scaleLabel: {
+                labelString: 'Temp',
+                display: true,
+              },
+              ticks: {
+                suggestedMin: 32,
+                suggestedMax: 80,
+              },
+            },
+          ],
+          xAxes: [
+            {
+              id: 'Date',
+              position: 'bottom',
+              type: 'time',
+              time: {
+                unit: 'hour',
+                displayFormats: {
+                  hour: 'MM/DD HH:mm',
+                },
+              },
+            },
+          ],
+        },
+      },
     };
   },
   mounted() {
-    this.options.scales = {
-      yAxes: [
-        {
-          id: 'Gravity',
-          position: 'left',
-          type: 'linear',
-          scaleLabel: {
-            labelString: 'Gravity',
-            display: true,
-          },
-          ticks: {
-            suggestedMin: 1.000,
-            suggestedMax: 1.100,
-            beginAtZero: false,
-          },
-        },
-        {
-          id: 'Temperature',
-          position: 'right',
-          type: 'linear',
-          scaleLabel: {
-            labelString: 'Temp',
-            display: true,
-          },
-          ticks: {
-            suggestedMin: 32,
-            suggestedMax: 80,
-          },
-        },
-      ],
-      xAxes: [
-        {
-          id: 'Date',
-          position: 'bottom',
-          type: 'time',
-          time: {
-            unit: 'hour',
-            displayFormats: {
-              hour: 'MM/DD HH:mm',
-            },
-          },
-        },
-      ],
-    };
-
     this.renderChart(this.chartData, this.options);
   },
 };

@@ -15,7 +15,7 @@
         </div>
       </div>
       <div class="content">
-        <batch-chart :batch="batch.id" :options="{reactive: true, maintainAspectRatio: false}"></batch-chart>
+        <batch-chart :batch="batch.id"></batch-chart>
       </div>
   </div>
 </template>
