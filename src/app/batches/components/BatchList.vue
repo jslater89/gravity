@@ -73,7 +73,9 @@ export default {
   data() {
     return {
       batches: [],
-      newBatch: {},
+      newBatch: {
+        hydrometer: { name: '' },
+      },
       showBatchEdit: false,
       showArchived: false,
       showInactive: true,

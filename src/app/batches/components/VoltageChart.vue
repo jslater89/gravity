@@ -1,5 +1,4 @@
 <script>
-import axios from 'axios';
 import moment from 'moment';
 import { Line, mixins } from 'vue-chartjs';
 
@@ -36,21 +35,8 @@ function convertBatchToDataset(batch) {
   return data;
 }
 
-function getBatch(ctx, id, callback) {
-  axios.get(`${ctx.gravityConfig.apiRoot}/api/v1/batches/${id}`)
-    .then((response) => {
-        callback(response.data);
-    },
-    (response) => {
-      //eslint-disable-next-line
-      console.log(response);
-    });
-}
-
-function receivedParam(batchID) {
-  getBatch(this, batchID, (batch) => {
-    this.localBatch = batch;
-  });
+function receivedParam(batch) {
+  this.localBatch = batch;
 }
 
 function updateChart() {
@@ -59,12 +45,12 @@ function updateChart() {
   }
 }
 
-function routeChanged(to) {
-  // const self = this;
-  getBatch(to.params.id, (batch) => {
-    this.localBatch = batch;
-  });
-}
+// function routeChanged(to) {
+//   // const self = this;
+//   // getBatch(to.params.id, (batch) => {
+//   //   this.localBatch = batch;
+//   // });
+// }
 
 export default {
   extends: Line,
@@ -72,7 +58,7 @@ export default {
   mixins: [mixins.reactiveData],
   watch: {
     batch: receivedParam, // received a param from above
-    $route: routeChanged, // navigated from one batch to another
+    // $route: routeChanged, // navigated from one batch to another
     localBatch: updateChart,
   },
   data() {

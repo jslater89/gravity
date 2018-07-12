@@ -15,8 +15,8 @@
         </div>
       </div>
       <div class="content">
-        <batch-chart :batch="batch.id"></batch-chart>
-        <voltage-chart :batch="batch.id"></voltage-chart>
+        <batch-chart :batch="batch"></batch-chart>
+        <voltage-chart :batch="batch"></voltage-chart>
       </div>
   </div>
 </template>
@@ -34,7 +34,9 @@ export default {
   props: ['id'],
   data() {
       return {
-          batch: {},
+          batch: {
+            hydrometer: {},
+          },
           showBatchEdit: false,
       };
   },
@@ -46,14 +48,9 @@ export default {
   },
 
   created() {
-      axios.get(`${this.gravityConfig.apiRoot}/api/v1/batches/${this.id}`)
-      .then((response) => {
-        this.batch = response.data;
-      })
-      .catch((response) => {
-        //eslint-disable-next-line
-        console.log(response);
-      });
+      this.updateBatch();
+
+      setInterval(this.updateBatch, 1000 * 60); // every minute
   },
 
   mounted() {
@@ -84,6 +81,16 @@ export default {
           //eslint-disable-next-line
           console.log(error);
         });
+    },
+    updateBatch() {
+      axios.get(`${this.gravityConfig.apiRoot}/api/v1/batches/${this.id}`)
+      .then((response) => {
+        this.batch = response.data;
+      })
+      .catch((response) => {
+        //eslint-disable-next-line
+        console.log(response);
+      });
     },
   },
 };

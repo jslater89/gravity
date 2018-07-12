@@ -1,5 +1,4 @@
 <script>
-import axios from 'axios';
 import moment from 'moment';
 import { Line, mixins } from 'vue-chartjs';
 
@@ -42,10 +41,17 @@ function convertBatchToDataset(batch) {
     // data.datasets[voltageData].data.push(reading.battery);
   }
 
+  let duration = moment.duration(30, 'minute');
+  if (batch.readings.length >= 2) {
+    const secondTime = batch.readings[1].date;
+    const firstTime = batch.readings[0].date;
+    duration = moment.duration(moment(secondTime).diff(moment(firstTime)));
+  }
+
   if (batch.readings.length < 144 && batch.readings.length > 0) {
     const startTime = moment(batch.readings[batch.readings.length - 1].date);
     for (let i = 0; i < (144 - batch.readings.length); i++) {
-      startTime.add(30, 'minutes');
+      startTime.add(duration);
       data.labels.push(startTime.toDate());
       data.datasets[gravityData].data.push(null);
       data.datasets[tempData].data.push(null);
@@ -55,21 +61,8 @@ function convertBatchToDataset(batch) {
   return data;
 }
 
-function getBatch(ctx, id, callback) {
-  axios.get(`${ctx.gravityConfig.apiRoot}/api/v1/batches/${id}`)
-    .then((response) => {
-        callback(response.data);
-    },
-    (response) => {
-      //eslint-disable-next-line
-      console.log(response);
-    });
-}
-
-function receivedParam(batchID) {
-  getBatch(this, batchID, (batch) => {
-    this.localBatch = batch;
-  });
+function receivedParam(batch) {
+  this.localBatch = batch;
 }
 
 function updateChart() {
@@ -78,12 +71,12 @@ function updateChart() {
   }
 }
 
-function routeChanged(to) {
-  // const self = this;
-  getBatch(to.params.id, (batch) => {
-    this.localBatch = batch;
-  });
-}
+// function routeChanged(to) {
+//   // const self = this;
+//   // getBatch(to.params.id, (batch) => {
+//   //   this.localBatch = batch;
+//   // });
+// }
 
 export default {
   extends: Line,
@@ -91,7 +84,7 @@ export default {
   mixins: [mixins.reactiveData],
   watch: {
     batch: receivedParam, // received a param from above
-    $route: routeChanged, // navigated from one batch to another
+    // $route: routeChanged, // navigated from one batch to another
     localBatch: updateChart,
   },
   data() {
